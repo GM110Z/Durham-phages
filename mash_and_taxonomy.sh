@@ -16,3 +16,12 @@ for i in ${VAR2}
       ./taxo_loop.sh ${i}
    done
 
+   
+#combine results in one file
+VAR3=$(ls *.tsv)
+for x in ${VAR3}
+   do 
+      echo ${x} >> combined_results.tsv
+      cat ${x} >> combined_results.tsv
+   done
+
