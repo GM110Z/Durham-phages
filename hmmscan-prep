@@ -1,0 +1,35 @@
+#!/usr/bin/env python
+from Bio import SeqIO
+import sys
+import pandas as pd
+
+file_name = sys.argv[1] #this is the genbank file
+
+# stores all the CDS entries
+all_entries = []
+
+with open(file_name, 'r') as GBFile:
+
+    GBcds = SeqIO.InsdcIO.GenBankCdsFeatureIterator(GBFile)
+
+    for cds in GBcds:
+        if cds.seq is not None:
+            cds.id = cds.id+"|"+ cds.name+"|"+cds.description
+            cds.description = ''
+            all_entries.append(cds)
+
+
+# write file
+SeqIO.write(all_entries, sys.argv[2].format(file_name[:-3]), 'fasta') #argv2 is the name to give the fasta protein file
+
+#import snippy table and convert locus tags to list 
+df = pd.read_csv(sys.argv[3], sep=",", low_memory=False)   #argv3 is the snippy table file
+snps=df.LOCUS_TAG.tolist()
+#remove nan from list
+snps = [x for x in snps if str(x) != 'nan']
+
+#import fasta file produce above   #argv2 is the name of the fasta protein file to import
+for record in SeqIO.parse(sys.argv[2], 'fasta'):   
+    for i in snps:
+        if i in record.id:
+            print (">",record.id,record.seq, file=open('hmmscan-input.txt','a'))
