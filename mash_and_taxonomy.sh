@@ -20,8 +20,9 @@ for i in ${VAR2}
 #combine results in one file
 VAR3=$(ls *.tsv)
 for x in ${VAR3}
-   do 
-      echo ${x} >> combined_results.tsv
-      cat ${x} >> combined_results.tsv
+   do
+      echo ${x} | cat ${x} - >> combined_results.txt
+      echo -e "\n" >> combined_results.txt
    done
+
 
