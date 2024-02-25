@@ -6,4 +6,6 @@
 
 **SNPs-graphics-Jupyter**: Jupyter book to annotate SNPs predicted with Snippy in a graphic output
 
-**taxo-loop.sh** loops mash_and_Taxonomy on more genomes
+**mash_and_taxonomy.sh**: runs mash dist against a refseq database and retrieves the taxonomy of the hits
+
+**taxo-loop.sh** loops mash_and_taxonomy.sh on more genomes
